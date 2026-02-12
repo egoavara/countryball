@@ -136,7 +136,20 @@ export function parseAnimations(cssText) {
     const animInfo = extractAnimationInfo(props);
 
     if (animInfo.name) {
-      result.set(selector, animInfo);
+      // Collect non-animation static properties (e.g. transform-origin)
+      const staticProps = {};
+      const animPropNames = [
+        'animation', 'animation-name', 'animation-duration',
+        'animation-timing-function', 'animation-delay',
+        'animation-iteration-count', 'animation-direction',
+        'animation-fill-mode', 'animation-play-state',
+      ];
+      for (const [key, value] of Object.entries(props)) {
+        if (!animPropNames.includes(key)) {
+          staticProps[key] = value;
+        }
+      }
+      result.set(selector, { ...animInfo, staticProperties: staticProps });
     }
   }
 

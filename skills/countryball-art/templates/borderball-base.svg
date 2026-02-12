@@ -19,6 +19,9 @@
     <circle cx="256" cy="256" r="200" fill="none" stroke="#000000" stroke-width="12"/>
   </g>
 
+  <!-- Accessories behind eyes (optional): hats, scarves -->
+  <!-- <g id="layer-accessories-back"> </g> -->
+
   <!-- Eyes layer - half-ellipse style (taller than wide), flat edge on top, NO PUPILS -->
   <g id="layer-eyes">
     <!-- Left eye: half-ellipse (70px wide, ~45px tall, rx=35 ry=45) -->
@@ -28,4 +31,7 @@
     <path d="M 283 198 A 35 45 0 0 1 353 198 Z"
           fill="#FFFFFF" stroke="#000000" stroke-width="5"/>
   </g>
+
+  <!-- Accessories in front of eyes (optional): glasses, monocle -->
+  <!-- <g id="layer-accessories-front"> </g> -->
 </svg>

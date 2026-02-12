@@ -63,6 +63,11 @@ Every countryball SVG MUST have:
 - `<g id="layer-outline">` - body outline with black stroke
 - `<g id="layer-eyes">` - eyes WITHOUT pupils
 
+Optional accessory layers (when accessories are present):
+- `<g id="layer-accessories-back">` - hats, scarves (between outline and eyes)
+- `<g id="layer-accessories-front">` - glasses, monocle (after eyes)
+- `data-accessories="id1,id2"` attribute on root `<svg>` element
+
 ## Reference Materials
 
 - Templates: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/templates/`
@@ -70,6 +75,7 @@ Every countryball SVG MUST have:
 - Art style guide: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/art-style-guide.md`
 - Eye styles: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/eye-styles.md`
 - Flag patterns: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/flag-patterns.md`
+- Accessories guide: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/accessories.md`
 - CSS animation guide: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/css-animation-guide.md`
 - Animation presets: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/templates/animation-presets/`
 
@@ -87,6 +93,8 @@ When generating a countryball:
    - Is the body shape correct (circle for borderball, ellipse for classic)?
    - Is the outline consistent and the right thickness?
    - Are proportions balanced?
+   - If accessories present: correct layer order (back before eyes, front after eyes)?
+   - If accessories present: do they match `data-accessories` metadata?
 5. **Fix and repeat** if issues found (max 5 iterations)
 6. **Verify**: Run verify script for structural checks
 7. **Present** to user with the rendered PNG

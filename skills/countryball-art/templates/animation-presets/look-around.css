@@ -1,0 +1,16 @@
+@keyframes look-around {
+  /* Center - idle */
+  0%, 15% { transform: translateX(0); }
+  /* Glance left */
+  25%, 35% { transform: translateX(-30px); }
+  /* Back to center */
+  45%, 55% { transform: translateX(0); }
+  /* Glance right */
+  65%, 75% { transform: translateX(30px); }
+  /* Return to center */
+  85%, 100% { transform: translateX(0); }
+}
+
+.animated-eyes {
+  animation: look-around 3s ease-in-out infinite;
+}

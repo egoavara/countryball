@@ -22,7 +22,11 @@ Ask the user about their countryball:
 1. **Country**: Which country? (affects flag pattern)
 2. **Style**: Borderball (clean, geometric) or Classic (organic, shaded)?
 3. **Expression**: Happy, neutral, sad, angry, squinting?
-4. **Accessories**: Hat, monocle, bow tie, etc.? (optional)
+4. **Accessories** (optional): Offer specific options from the list below:
+   - **Hats (pick 1)**: Top hat, Beret, Ushanka, Fez, Military cap, Crown
+   - **Eyewear (pick 1)**: Glasses, Sunglasses, Monocle
+   - **Other**: Bow tie, Scarf, Pipe
+   - See `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/accessories.md` for SVG code
 
 Show reference images to help the user decide:
 - Read and show `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/03_borderball_poland.png` for borderball style
@@ -33,6 +37,7 @@ Show reference images to help the user decide:
 1. Read the appropriate template from `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/templates/`
 2. Read flag patterns from `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/flag-patterns.md`
 3. Read eye styles from `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/eye-styles.md`
+3b. If accessories requested: Read `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/accessories.md` for SVG snippets
 4. Create the working directory: `mkdir -p .countryball/<character-name>/`
 5. Write the SVG to `.countryball/<character-name>/static.svg`
 
@@ -48,6 +53,9 @@ for each iteration:
      - Body shape correct?
      - Proportions balanced?
      - Overall quality good?
+     - If accessories: layer-accessories-back before layer-eyes?
+     - If accessories: layer-accessories-front after layer-eyes?
+     - If accessories: data-accessories metadata present?
   d. If issues found → Edit the SVG and go to (a)
   e. If good → proceed
 ```
@@ -82,3 +90,5 @@ Present the user with their completed countryball:
 4. **ALWAYS include metadata** (data-style, data-country) on root SVG.
 5. **Max 5 feedback loop iterations** - if not perfect after 5, present best result.
 6. **Output to CWD** - all files go to `.countryball/<name>/` in the user's current directory.
+7. **Accessory layer order**: `layer-accessories-back` MUST come before `layer-eyes`; `layer-accessories-front` MUST come after `layer-eyes`.
+8. **Accessory metadata**: When accessories are added, include `data-accessories="id1,id2"` on the root `<svg>` element.

@@ -100,10 +100,13 @@ function generateSingleFrame(svgString, styleContent, keyframes, animations, tim
     // Find surrounding keyframe stops
     const interpolatedProps = interpolateKeyframeProperties(kf.frames, progress, anim.timingFunction);
 
+    // Merge static properties (e.g. transform-origin) with animated properties
+    const mergedProps = { ...(anim.staticProperties || {}), ...interpolatedProps };
+
     // Split comma-separated selectors and apply to each
     const selectors = selectorGroup.split(',').map(s => s.trim()).filter(Boolean);
     for (const selector of selectors) {
-      frameSvg = applyPropertiesToSvg(frameSvg, selector, interpolatedProps);
+      frameSvg = applyPropertiesToSvg(frameSvg, selector, mergedProps);
     }
   }
 
@@ -176,22 +179,79 @@ function applyPropertiesToSvg(svgString, selector, properties) {
   const elementPattern = buildElementPattern(selector);
   if (!elementPattern) return svg;
 
+  // Extract transform-origin if present (to bake into transform)
+  const transformOrigin = properties['transform-origin'];
+
   // For each matching element, apply properties as inline attributes
   svg = svg.replace(elementPattern, (match) => {
     let element = match;
 
     for (const [prop, value] of Object.entries(properties)) {
+      // Skip transform-origin as a separate attribute; it's baked into transform
+      if (prop === 'transform-origin') continue;
+
       // Convert CSS property name to SVG attribute name
       const attrName = cssPropertyToSvgAttribute(prop);
       // Convert CSS transform values to SVG transform syntax
-      const attrValue = attrName === 'transform' ? cssTransformToSvg(value) : value;
-      element = setAttributeOnElement(element, attrName, attrValue);
+      if (attrName === 'transform') {
+        const svgTransform = cssTransformToSvg(value);
+        const attrValue = bakeTransformOrigin(svgTransform, transformOrigin);
+        element = setAttributeOnElement(element, attrName, attrValue);
+      } else {
+        element = setAttributeOnElement(element, attrName, value);
+      }
     }
 
     return element;
   });
 
   return svg;
+}
+
+/**
+ * Bake transform-origin into the SVG transform by wrapping with translate/untranslate.
+ * CSS: transform-origin: 256px 198px; transform: scale(1,0.1)
+ * SVG: transform="translate(256,198) scale(1,0.1) translate(-256,-198)"
+ */
+function bakeTransformOrigin(svgTransform, transformOrigin) {
+  if (!transformOrigin) return svgTransform;
+
+  const origin = parseTransformOrigin(transformOrigin);
+  if (!origin) return svgTransform;
+
+  // Check if the transform is identity (no-op)
+  if (!svgTransform || svgTransform.trim() === '') return svgTransform;
+
+  return `translate(${origin.x},${origin.y}) ${svgTransform} translate(${-origin.x},${-origin.y})`;
+}
+
+/**
+ * Parse CSS transform-origin value to {x, y} coordinates.
+ * Supports: "256px 198px", "center center", "50% 50%", "center"
+ */
+function parseTransformOrigin(value) {
+  const parts = value.trim().split(/\s+/);
+
+  const parseComponent = (part, axis) => {
+    if (part === 'center') return 256; // center of 512 canvas
+    if (part === 'left' || part === 'top') return 0;
+    if (part === 'right' || part === 'bottom') return 512;
+    const num = parseFloat(part);
+    if (part.endsWith('%')) return (num / 100) * 512;
+    if (!isNaN(num)) return num;
+    return null;
+  };
+
+  if (parts.length >= 2) {
+    const x = parseComponent(parts[0], 'x');
+    const y = parseComponent(parts[1], 'y');
+    if (x !== null && y !== null) return { x, y };
+  } else if (parts.length === 1) {
+    const v = parseComponent(parts[0], 'x');
+    if (v !== null) return { x: v, y: v };
+  }
+
+  return null;
 }
 
 /**

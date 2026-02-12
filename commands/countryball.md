@@ -10,12 +10,14 @@ Create a new countryball character. This command starts an interactive design se
 
 ## Usage
 
-`/countryball [country] [--style=borderball|classic]`
+`/countryball [country] [--style=borderball|classic] [--accessories=id1,id2]`
 
 Examples:
 - `/countryball` - Start interactive design
 - `/countryball poland` - Create Poland countryball
 - `/countryball germany --style=classic` - Create classic-style Germany
+- `/countryball uk --accessories=top-hat,monocle` - UK with top hat and monocle
+- `/countryball france --accessories=beret,pipe` - France with beret and pipe
 
 ## Instructions
 

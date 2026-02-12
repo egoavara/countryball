@@ -66,6 +66,14 @@ export async function verifySvg(svgPath, options = {}) {
   // 8. svg_wellformed
   report.checks.svg_wellformed = checkSvgWellformed(svgString);
 
+  // 9. accessories_valid (only when accessory layers are present)
+  const hasAccBack = /id=["']layer-accessories-back["']/.test(svgString);
+  const hasAccFront = /id=["']layer-accessories-front["']/.test(svgString);
+
+  if (hasAccBack || hasAccFront) {
+    report.checks.accessories_valid = checkAccessoriesValid(svgString, hasAccBack, hasAccFront);
+  }
+
   // -----------------------------------------------------------------------
   // Render checks (3 items)
   // -----------------------------------------------------------------------
@@ -553,6 +561,56 @@ function checkDurationValid(svgString) {
     detail: allValid
       ? `Animation duration(s) valid: ${durationStr}`
       : `Animation duration(s) out of range (0.5s-10s): ${durationStr}`,
+  };
+}
+
+// ===========================================================================
+// Accessories check implementation
+// ===========================================================================
+
+function checkAccessoriesValid(svgString, hasAccBack, hasAccFront) {
+  const issues = [];
+
+  // Find document-order positions of key layers
+  const posEyes = svgString.search(/id=["']layer-eyes["']/);
+  const posAccBack = hasAccBack ? svgString.search(/id=["']layer-accessories-back["']/) : -1;
+  const posAccFront = hasAccFront ? svgString.search(/id=["']layer-accessories-front["']/) : -1;
+
+  // 1. layer-accessories-back must appear BEFORE layer-eyes
+  if (hasAccBack && posEyes !== -1 && posAccBack > posEyes) {
+    issues.push('layer-accessories-back must appear before layer-eyes in document order');
+  }
+
+  // 2. layer-accessories-front must appear AFTER layer-eyes
+  if (hasAccFront && posEyes !== -1 && posAccFront < posEyes) {
+    issues.push('layer-accessories-front must appear after layer-eyes in document order');
+  }
+
+  // 3. Check data-accessories metadata matches actual layers
+  const dataAcc = extractAttribute(svgString, 'data-accessories');
+  if ((hasAccBack || hasAccFront) && !dataAcc) {
+    issues.push('Accessory layers present but data-accessories attribute is missing on <svg>');
+  }
+
+  // 4. Check for empty accessory layers
+  if (hasAccBack) {
+    const content = extractGroupContent(svgString, 'layer-accessories-back');
+    if (content !== null && content.trim() === '') {
+      issues.push('layer-accessories-back is empty');
+    }
+  }
+  if (hasAccFront) {
+    const content = extractGroupContent(svgString, 'layer-accessories-front');
+    if (content !== null && content.trim() === '') {
+      issues.push('layer-accessories-front is empty');
+    }
+  }
+
+  return {
+    pass: issues.length === 0,
+    detail: issues.length === 0
+      ? `Accessory layers valid (back: ${hasAccBack}, front: ${hasAccFront})`
+      : issues.join('; '),
   };
 }
 

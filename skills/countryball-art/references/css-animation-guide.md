@@ -262,6 +262,23 @@ Apply the **same animation** to all visible layers so the ball moves as one unit
 }
 ```
 
+If the SVG has accessory layers, include them too:
+
+```css
+#layer-flag, #layer-eyes, #layer-outline,
+#layer-accessories-back, #layer-accessories-front {
+  animation: bounce 2s ease-in-out infinite;
+}
+```
+
+**Preferred approach:** Wrap all layers in `<g class="animated-body">` and animate the wrapper. This automatically moves accessories with the body without listing every layer:
+
+```css
+.animated-body {
+  animation: bounce 2s ease-in-out infinite;
+}
+```
+
 If layers animate independently, the ball will appear to fall apart.
 
 ### Use `transform-origin` for Rotation and Scale

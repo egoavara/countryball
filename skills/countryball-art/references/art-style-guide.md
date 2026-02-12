@@ -95,8 +95,12 @@ The classic style has a hand-drawn, slightly irregular feel with optional shadin
 All SVGs must contain these groups in order:
 
 1. `<g id="layer-flag" clip-path="url(#body-clip)">` -- Flag pattern elements
-2. `<g id="layer-eyes">` -- Eye elements
-3. `<g id="layer-outline">` -- Body outline (the circle/ellipse with stroke, no fill)
+2. `<g id="layer-outline">` -- Body outline (the circle/ellipse with stroke, no fill)
+3. `<g id="layer-accessories-back">` -- Accessories behind eyes: hats, scarves **(optional)**
+4. `<g id="layer-eyes">` -- Eye elements
+5. `<g id="layer-accessories-front">` -- Accessories in front of eyes: glasses, monocle **(optional)**
+
+The accessory layers (3 and 5) are **optional**. SVGs without accessories omit them entirely.
 
 ### Required Metadata Attributes
 
@@ -120,7 +124,33 @@ On the root `<svg>` element:
 
 ---
 
-## 4. What NOT to Do
+## 4. Accessories (Optional)
+
+Countryballs can optionally wear accessories like hats, glasses, or scarves. See `accessories.md` for complete SVG code snippets and guidelines.
+
+### Layer Placement
+
+- **Hats, scarves, bow ties** go in `layer-accessories-back` (behind eyes).
+- **Glasses, sunglasses, monocle, pipe** go in `layer-accessories-front` (in front of eyes).
+
+### Metadata
+
+Declare accessories on the root `<svg>` element:
+
+```xml
+<svg ... data-accessories="top-hat,monocle">
+```
+
+### Styling Rules
+
+- Flat colors only (no gradients or shadows).
+- Black stroke, `stroke-width="2"` to `"5"`.
+- Maximum **3 accessories** per countryball.
+- Maximum **1 hat** and **1 eyewear** at a time.
+
+---
+
+## 5. What NOT to Do
 
 - **No pupils or irises.** Eyes are always solid white with a black outline. Never add black dots, colored circles, or any detail inside the eye shape.
 - **No limbs.** No arms, legs, hands, or feet.
@@ -130,10 +160,12 @@ On the root `<svg>` element:
 - **No shadows.** NEVER add ground shadows, drop shadows, or any shadow effects to countryballs.
 - **No excessive detail.** Simplicity is the core aesthetic. If in doubt, leave it out.
 - **No text or labels** on the ball (unless it is part of the flag itself, such as a coat of arms when explicitly requested).
+- **No flag-covering accessories.** Accessories must not obscure the flag pattern (no full-body coats, capes, or large wraps).
+- **No limb-like accessories.** No arms, legs, hands, or holding-pose props. Accessories must be wearable.
 
 ---
 
-## 5. Reference Images
+## 6. Reference Images
 
 | File | Style | Description |
 |------|-------|-------------|
