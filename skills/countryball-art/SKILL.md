@@ -68,6 +68,16 @@ Optional accessory layers (when accessories are present):
 - `<g id="layer-accessories-front">` - glasses, monocle (after eyes)
 - `data-accessories="id1,id2"` attribute on root `<svg>` element
 
+## Accessory Creation Workflow
+
+Accessories are **NOT** drawn directly onto the countryball. Each accessory is:
+1. **Researched** — search the internet for real reference images
+2. **Created standalone** — drawn in a separate SVG using `templates/accessory-base.svg` (with ghost body guide)
+3. **Verified independently** — rendered and visually inspected in its own feedback loop
+4. **Embedded** — the `<g id="acc-{id}">` group is extracted and inserted into the countryball SVG
+
+See `references/accessories.md` for the full workflow and accessory catalog.
+
 ## Reference Materials
 
 - Templates: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/templates/`

@@ -1,6 +1,6 @@
 # Countryball Accessories
 
-This document provides SVG code snippets and styling guidelines for optional countryball accessories. Accessories are placed in dedicated layers that sit between the existing layers.
+This document defines the accessory system for countryball SVGs. Accessories are created as **standalone SVGs** with their own visual feedback loop, then embedded into the final countryball.
 
 ---
 
@@ -29,264 +29,118 @@ Add a `data-accessories` attribute to the root `<svg>` element listing all acces
 
 ---
 
-## 2. Back Layer Accessories (Hats, Scarves)
+## 2. Standalone Accessory Creation Workflow
 
-All coordinates are based on the **borderball** template (body center: `cx=256, cy=256, r=200`). For **classic** style, shift `cy` by **+9px** (body center is at `cy=265`).
+**NEVER draw accessories directly onto the countryball.** Each accessory must be created and verified independently before being embedded.
 
-### 2.1 Top Hat (`top-hat`)
+### Step 1: Search for Reference Images
 
-A tall black silk hat, British style.
+Before drawing ANY accessory, **search the internet** for real-world reference images:
 
-```xml
-<g id="acc-top-hat">
-  <!-- Hat brim -->
-  <ellipse cx="256" cy="80" rx="100" ry="14"
-           fill="#1A1A1A" stroke="#000" stroke-width="3"/>
-  <!-- Hat body -->
-  <rect x="186" y="10" width="140" height="70" rx="6"
-        fill="#1A1A1A" stroke="#000" stroke-width="3"/>
-  <!-- Hat band -->
-  <rect x="186" y="60" width="140" height="12"
-        fill="#8B0000"/>
-</g>
+```
+WebSearch: "{accessory name}" OR "{accessory name} illustration flat"
 ```
 
-### 2.2 Beret (`beret`)
+If the user provides a reference image, use that instead. Study the reference carefully:
+- Overall shape and silhouette
+- Key structural details (e.g., ushanka has distinct fur brim + ear flaps that fold down)
+- Proportions between parts (e.g., top hat crown height vs brim width)
+- Characteristic features that make it recognizable
 
-A flat French-style beret.
+### Step 2: Create Standalone Accessory SVG
 
-```xml
-<g id="acc-beret">
-  <!-- Beret body -->
-  <ellipse cx="256" cy="78" rx="90" ry="30"
-           fill="#1A1A1A" stroke="#000" stroke-width="3"/>
-  <!-- Beret stem -->
-  <circle cx="256" cy="52" r="6"
-          fill="#1A1A1A" stroke="#000" stroke-width="2"/>
-</g>
+Use the accessory template at `templates/accessory-base.svg`. Save to:
+
+```
+.countryball/<name>/accessories/<accessory-id>.svg
 ```
 
-### 2.3 Ushanka (`ushanka`)
+The template includes:
+- **Ghost body guide**: A dashed gray circle (cx=256, cy=256, r=200) showing where the countryball body will be. Use this for positioning.
+- **Ghost eye guides**: Dashed arches showing default eye positions. Use for eyewear alignment.
+- **Accessory group**: `<g id="acc-{id}">` — draw your accessory inside this group.
 
-A Russian fur hat with ear flaps.
+Metadata on the standalone SVG root:
+- `data-accessory-id="{id}"` — the accessory ID
+- `data-accessory-layer="back|front"` — which layer it belongs to
 
-```xml
-<g id="acc-ushanka">
-  <!-- Main hat body -->
-  <ellipse cx="256" cy="75" rx="95" ry="35"
-           fill="#5C4033" stroke="#000" stroke-width="3"/>
-  <!-- Fur brim -->
-  <ellipse cx="256" cy="95" rx="105" ry="18"
-           fill="#D2B48C" stroke="#000" stroke-width="2"/>
-  <!-- Left ear flap -->
-  <path d="M 165 90 Q 150 130 155 165 Q 165 170 180 160 Q 175 130 170 95 Z"
-        fill="#5C4033" stroke="#000" stroke-width="2"/>
-  <!-- Right ear flap -->
-  <path d="M 347 90 Q 362 130 357 165 Q 347 170 332 160 Q 337 130 342 95 Z"
-        fill="#5C4033" stroke="#000" stroke-width="2"/>
-</g>
+### Step 3: Visual Feedback Loop (max 5 iterations)
+
+```
+for each iteration:
+  a. Render: node ${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/scripts/render.mjs .countryball/<name>/accessories/<id>.svg --size=512
+  b. Read the PNG to visually inspect
+  c. Compare with reference image:
+     - Does the silhouette match the real object?
+     - Are proportions correct? (not too flat, not too stretched)
+     - Are characteristic details present?
+     - Is positioning correct relative to the ghost body?
+     - Does it follow the flat-color countryball aesthetic?
+  d. If issues found → Edit and go to (a)
+  e. If good → proceed to next accessory or embedding
 ```
 
-### 2.4 Fez (`fez`)
+### Step 4: Embed into Countryball
 
-An Ottoman-style red fez with tassel.
+Once all accessories pass quality checks:
 
-```xml
-<g id="acc-fez">
-  <!-- Fez body (trapezoid shape) -->
-  <path d="M 216 95 L 210 55 Q 256 40 302 55 L 296 95 Z"
-        fill="#DC143C" stroke="#000" stroke-width="3"/>
-  <!-- Tassel base -->
-  <circle cx="256" cy="50" r="5"
-          fill="#1A1A1A" stroke="#000" stroke-width="2"/>
-  <!-- Tassel string -->
-  <path d="M 256 55 Q 290 50 295 75"
-        fill="none" stroke="#1A1A1A" stroke-width="2"/>
-  <!-- Tassel tip -->
-  <circle cx="295" cy="75" r="6"
-          fill="#1A1A1A"/>
-</g>
-```
-
-### 2.5 Military Cap (`military-cap`)
-
-A military peaked cap with badge.
-
-```xml
-<g id="acc-military-cap">
-  <!-- Cap body -->
-  <path d="M 166 95 Q 170 55 256 45 Q 342 55 346 95 Z"
-        fill="#3C5A3C" stroke="#000" stroke-width="3"/>
-  <!-- Cap brim -->
-  <path d="M 166 95 Q 256 115 346 95 Q 340 105 256 110 Q 172 105 166 95 Z"
-        fill="#1A1A1A" stroke="#000" stroke-width="2"/>
-  <!-- Badge -->
-  <circle cx="256" cy="72" r="10"
-          fill="#FFD700" stroke="#000" stroke-width="2"/>
-</g>
-```
-
-### 2.6 Crown (`crown`)
-
-A golden crown with jewels.
-
-```xml
-<g id="acc-crown">
-  <!-- Crown base -->
-  <rect x="196" y="65" width="120" height="35" rx="3"
-        fill="#FFD700" stroke="#000" stroke-width="3"/>
-  <!-- Crown points -->
-  <path d="M 196 65 L 210 30 L 226 65 L 242 25 L 256 65 L 270 25 L 286 65 L 302 30 L 316 65"
-        fill="#FFD700" stroke="#000" stroke-width="3"/>
-  <!-- Jewels -->
-  <circle cx="226" cy="78" r="5" fill="#DC143C" stroke="#000" stroke-width="1"/>
-  <circle cx="256" cy="78" r="5" fill="#4169E1" stroke="#000" stroke-width="1"/>
-  <circle cx="286" cy="78" r="5" fill="#DC143C" stroke="#000" stroke-width="1"/>
-</g>
-```
-
-### 2.7 Bow Tie (`bow-tie`)
-
-A decorative bow tie at the bottom of the ball.
-
-```xml
-<g id="acc-bow-tie">
-  <!-- Left wing -->
-  <path d="M 256 420 L 216 400 L 216 440 Z"
-        fill="#DC143C" stroke="#000" stroke-width="3"/>
-  <!-- Right wing -->
-  <path d="M 256 420 L 296 400 L 296 440 Z"
-        fill="#DC143C" stroke="#000" stroke-width="3"/>
-  <!-- Center knot -->
-  <circle cx="256" cy="420" r="8"
-          fill="#B01030" stroke="#000" stroke-width="2"/>
-</g>
-```
-
-### 2.8 Scarf (`scarf`)
-
-A knitted scarf wrapped around the lower body.
-
-```xml
-<g id="acc-scarf">
-  <!-- Scarf wrap -->
-  <path d="M 140 370 Q 200 395 256 390 Q 312 395 372 370 Q 365 400 256 410 Q 147 400 140 370 Z"
-        fill="#CC2200" stroke="#000" stroke-width="3"/>
-  <!-- Scarf tail -->
-  <path d="M 330 385 Q 350 420 340 460 Q 335 465 320 460 Q 325 425 315 395"
-        fill="#CC2200" stroke="#000" stroke-width="3"/>
-  <!-- Stripe detail -->
-  <path d="M 150 380 Q 200 400 256 397 Q 312 400 362 380"
-        fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.5"/>
-</g>
-```
+1. Read each standalone accessory SVG
+2. Extract the `<g id="acc-{id}">` group (WITHOUT ghost guides)
+3. Insert into the countryball SVG:
+   - Back-layer accessories → inside `<g id="layer-accessories-back">`
+   - Front-layer accessories → inside `<g id="layer-accessories-front">`
+4. Add `data-accessories="id1,id2"` to the root `<svg>`
+5. Render final result and verify the combined look
 
 ---
 
-## 3. Front Layer Accessories (Glasses, Monocle)
+## 3. Accessory Catalog
 
-These accessories appear **in front of** the eyes.
+Each entry describes the accessory. **Do NOT use hardcoded SVG code.** Always search for a reference image and draw from scratch.
 
-### 3.1 Glasses (`glasses`)
+### Back Layer (behind eyes)
 
-Round glasses with transparent lenses.
+| ID | Name | Layer | Description | Key Features to Reference |
+|----|------|-------|-------------|---------------------------|
+| `top-hat` | Top Hat | back | Tall formal hat | Tall cylindrical crown, wide flat brim, ribbon band. Sits on top of body. |
+| `beret` | Beret | back | Flat round cap | Soft, round, slightly drooping to one side. Small stem/tab on top center. |
+| `ushanka` | Ushanka | back | Russian fur hat | Thick fur brim, rounded crown, ear flaps that hang down on both sides. |
+| `fez` | Fez | back | Ottoman tassel hat | Truncated cone shape (flat top, wider bottom), tassel hanging from top. Red color. |
+| `military-cap` | Military Cap | back | Peaked military cap | Structured crown, stiff front brim/visor, badge/emblem on front. |
+| `crown` | Crown | back | Royal crown | Gold band base, pointed peaks rising from base, jewels inset into band. |
+| `bow-tie` | Bow Tie | back | Neck bow tie | Two symmetric triangular wings, small round knot in center. Sits at body bottom. |
+| `scarf` | Scarf | back | Knitted scarf | Wraps around lower body, one tail hanging down. Visible knit texture or stripes. |
 
-```xml
-<g id="acc-glasses">
-  <!-- Left lens -->
-  <circle cx="210" cy="220" r="32"
-          fill="none" stroke="#1A1A1A" stroke-width="4"/>
-  <!-- Right lens -->
-  <circle cx="310" cy="220" r="32"
-          fill="none" stroke="#1A1A1A" stroke-width="4"/>
-  <!-- Bridge -->
-  <path d="M 242 220 Q 256 212 278 220"
-        fill="none" stroke="#1A1A1A" stroke-width="4"/>
-  <!-- Left temple -->
-  <path d="M 178 220 L 140 210"
-        fill="none" stroke="#1A1A1A" stroke-width="3"/>
-  <!-- Right temple -->
-  <path d="M 342 220 L 380 210"
-        fill="none" stroke="#1A1A1A" stroke-width="3"/>
-</g>
-```
+### Front Layer (in front of eyes)
 
-### 3.2 Sunglasses (`sunglasses`)
-
-Dark-lensed rectangular sunglasses.
-
-```xml
-<g id="acc-sunglasses">
-  <!-- Left lens -->
-  <rect x="178" y="198" width="64" height="44" rx="8"
-        fill="#1A1A1A" stroke="#000" stroke-width="3"/>
-  <!-- Right lens -->
-  <rect x="278" y="198" width="64" height="44" rx="8"
-        fill="#1A1A1A" stroke="#000" stroke-width="3"/>
-  <!-- Bridge -->
-  <path d="M 242 218 Q 256 210 278 218"
-        fill="none" stroke="#1A1A1A" stroke-width="4"/>
-  <!-- Left temple -->
-  <path d="M 178 215 L 140 208"
-        fill="none" stroke="#1A1A1A" stroke-width="3"/>
-  <!-- Right temple -->
-  <path d="M 342 215 L 380 208"
-        fill="none" stroke="#1A1A1A" stroke-width="3"/>
-</g>
-```
-
-### 3.3 Monocle (`monocle`)
-
-A single eyepiece with chain, worn on the right eye.
-
-```xml
-<g id="acc-monocle">
-  <!-- Monocle rim -->
-  <circle cx="310" cy="220" r="34"
-          fill="none" stroke="#B8860B" stroke-width="4"/>
-  <!-- Chain -->
-  <path d="M 310 254 Q 320 320 300 400"
-        fill="none" stroke="#B8860B" stroke-width="2" stroke-dasharray="4 3"/>
-</g>
-```
-
-### 3.4 Pipe (`pipe`)
-
-A smoking pipe held at the side.
-
-```xml
-<g id="acc-pipe">
-  <!-- Pipe stem -->
-  <path d="M 370 280 Q 400 260 410 230"
-        fill="none" stroke="#5C4033" stroke-width="6"/>
-  <!-- Pipe bowl -->
-  <path d="M 400 240 Q 415 220 410 200 Q 425 195 425 215 Q 425 240 410 245 Z"
-        fill="#5C4033" stroke="#000" stroke-width="2"/>
-  <!-- Smoke puffs -->
-  <circle cx="420" cy="185" r="8" fill="#CCCCCC" opacity="0.4"/>
-  <circle cx="430" cy="170" r="6" fill="#CCCCCC" opacity="0.3"/>
-  <circle cx="418" cy="160" r="5" fill="#CCCCCC" opacity="0.2"/>
-</g>
-```
+| ID | Name | Layer | Description | Key Features to Reference |
+|----|------|-------|-------------|---------------------------|
+| `glasses` | Glasses | front | Round eyeglasses | Two circular frames connected by nose bridge, temples extending to sides. Transparent lenses (`fill="none"`). |
+| `sunglasses` | Sunglasses | front | Dark sunglasses | Rectangular or aviator frames, opaque dark lenses (`fill="#1A1A1A"`), nose bridge, temples. |
+| `monocle` | Monocle | front | Single eyepiece | One circular lens (right eye), thin gold frame, chain hanging down. |
+| `pipe` | Pipe | front | Smoking pipe | Curved stem, bowl at the end. Positioned at the side of the body. Optional smoke wisps. |
 
 ---
 
-## 4. Classic Style Position Offsets
+## 4. Positioning Guide
 
-The classic body center is at `cy=265` (vs borderball `cy=256`), giving a **+9px vertical offset**. Apply these adjustments when using accessories on classic-style countryballs:
+All positions are based on **borderball** (body: `cx=256, cy=256, r=200`).
 
-| Accessory Category | Borderball Position | Classic Offset |
-|--------------------|---------------------|----------------|
-| Hats (top) | Based on `cy=256` | Move down **+9px** |
-| Glasses / Monocle | Eye area ~`cy=220` | Move down **+9px** to `~cy=229` |
-| Bow tie / Scarf | Bottom ~`cy=420` | Move down **+9px** to `~cy=429` |
-| Pipe | Side ~`cy=280` | Move down **+9px** to `~cy=289` |
+| Category | Vertical Zone | Notes |
+|----------|---------------|-------|
+| Hats | Top of body, `cy ≈ 60-100` | Should sit on or slightly above the body circle |
+| Eyewear | Eye level, `cy ≈ 200-240` | Must align with the ghost eye guides |
+| Bow tie | Bottom of body, `cy ≈ 410-440` | Centered horizontally |
+| Scarf | Lower body, `cy ≈ 370-410` | Wraps around the body curve |
+| Pipe | Side of body, `cx ≈ 370-430` | Extends from the body edge |
 
-Apply the offset using a `transform` on the accessory group:
+### Classic Style Offset
+
+Classic body center is at `cy=265` (+9px from borderball). Apply offset via transform:
 
 ```xml
 <g id="acc-top-hat" transform="translate(0, 9)">
-  <!-- ... hat SVG ... -->
+  <!-- ... -->
 </g>
 ```
 
@@ -294,11 +148,12 @@ Apply the offset using a `transform` on the accessory group:
 
 ## 5. Styling Rules
 
-1. **Flat colors only.** No gradients, radial shading, or drop shadows on accessories.
-2. **Black stroke.** All accessory shapes use `stroke="#000"` with `stroke-width="2"` to `"5"` depending on size.
-3. **Simple shapes.** Use basic SVG elements (`rect`, `circle`, `ellipse`, `path`). No filters or effects.
-4. **Consistent scale.** Accessories should be proportional to the 512x512 canvas and the ~400px diameter body.
-5. **No fill on lenses.** Glasses lenses use `fill="none"` (transparent). Sunglasses use `fill="#1A1A1A"` (opaque dark).
+1. **Flat colors only.** No gradients, radial shading, or drop shadows.
+2. **Black stroke.** `stroke="#000"` with `stroke-width="2"` to `"5"` depending on element size.
+3. **Simple shapes.** Basic SVG elements (`rect`, `circle`, `ellipse`, `path`). No filters or effects.
+4. **Proportional to body.** Accessories should look natural on a ~400px diameter body on a 512x512 canvas.
+5. **Recognizable silhouette.** The accessory should be instantly identifiable even at small sizes.
+6. **No fill on transparent lenses.** Glasses use `fill="none"`. Sunglasses use opaque dark fill.
 
 ---
 
@@ -306,32 +161,30 @@ Apply the offset using a `transform` on the accessory group:
 
 ### Recommended Combinations
 
-- **Top hat + Monocle**: Classic British gentleman look
-- **Beret + Pipe**: French intellectual aesthetic
-- **Military cap + Sunglasses**: Authoritative military style
+- **Top hat + Monocle**: Classic British gentleman
+- **Beret + Pipe**: French intellectual
+- **Military cap + Sunglasses**: Authoritative military
 - **Crown + Scarf**: Royal winter attire
 - **Ushanka + Scarf**: Cold weather ensemble
 
 ### Limits
 
-- **Maximum 3 accessories** per countryball. More than 3 creates visual clutter.
-- **Maximum 1 hat** at a time. Do not stack hats.
-- **Maximum 1 eyewear** at a time. No glasses + monocle combinations.
+- **Maximum 3 accessories** per countryball.
+- **Maximum 1 hat** at a time.
+- **Maximum 1 eyewear** at a time.
 
 ### Prohibited
 
-- **Accessories that cover the flag**: No full-body coats, capes, or wraps that obscure the flag pattern.
-- **Limb-like accessories**: No arms, legs, hands, or holding-pose items. Accessories must be wearable.
+- **Accessories that cover the flag**: No full-body coats, capes, or wraps that obscure the flag.
+- **Limb-like accessories**: No arms, legs, hands, or holding-pose items.
 - **Accessories with gradients or shadows**: Keep the flat countryball aesthetic.
 
 ---
 
 ## 7. Animation Behavior
 
-When a countryball has animations:
-
-- **Body animations** (bounce, hop, wobble): Accessories inside `<g class="animated-body">` move with the body automatically. No extra CSS needed.
-- **Eye animations** (blink): Only affect `#layer-eyes`. Front-layer accessories (glasses, monocle) remain static while eyes animate behind them, creating a natural effect.
+- **Body animations** (bounce, hop, wobble): Accessories inside `<g class="animated-body">` move with the body automatically.
+- **Eye animations** (blink): Only affect `#layer-eyes`. Front-layer accessories stay static while eyes animate behind them.
 
 ```xml
 <g class="animated-body">
@@ -341,4 +194,19 @@ When a countryball has animations:
   <g id="layer-eyes" class="animated-eyes">...</g>
   <g id="layer-accessories-front">...</g>
 </g>
+```
+
+---
+
+## 8. Directory Structure Example
+
+```
+.countryball/uk-gentleman/
+  accessories/
+    top-hat.svg          ← Standalone accessory (with ghost guides)
+    top-hat.png          ← Rendered preview
+    monocle.svg          ← Standalone accessory
+    monocle.png          ← Rendered preview
+  static.svg             ← Final countryball with embedded accessories
+  static.png             ← Final rendered output
 ```

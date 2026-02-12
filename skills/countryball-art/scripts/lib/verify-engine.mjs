@@ -67,11 +67,13 @@ export async function verifySvg(svgPath, options = {}) {
   report.checks.svg_wellformed = checkSvgWellformed(svgString);
 
   // 9. accessories_valid (only when accessory layers are present)
-  const hasAccBack = /id=["']layer-accessories-back["']/.test(svgString);
-  const hasAccFront = /id=["']layer-accessories-front["']/.test(svgString);
+  // Strip XML comments so commented-out placeholders don't trigger the check
+  const svgNoComments = svgString.replace(/<!--[\s\S]*?-->/g, '');
+  const hasAccBack = /id=["']layer-accessories-back["']/.test(svgNoComments);
+  const hasAccFront = /id=["']layer-accessories-front["']/.test(svgNoComments);
 
   if (hasAccBack || hasAccFront) {
-    report.checks.accessories_valid = checkAccessoriesValid(svgString, hasAccBack, hasAccFront);
+    report.checks.accessories_valid = checkAccessoriesValid(svgNoComments, hasAccBack, hasAccFront);
   }
 
   // -----------------------------------------------------------------------

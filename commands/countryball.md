@@ -1,7 +1,7 @@
 ---
 name: countryball
 description: "Create a new countryball character with AI visual feedback loop"
-arguments: "[country] [--style=borderball|classic]"
+arguments: "[country] [--style=borderball|classic] [--accessories=id1,id2]"
 ---
 
 # Countryball Creation Workflow
@@ -26,7 +26,12 @@ Examples:
    - Read `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/03_borderball_poland.png` (borderball example)
    - Read `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/references/01_polandball_classic.png` (classic example)
 3. Ask about expression preference (happy, neutral, etc.)
-4. Read the SKILL.md for full workflow: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/SKILL.md`
-5. Follow the complete workflow defined in the countryball-creator agent
-6. Use the AI visual feedback loop to ensure quality
-7. Present final results to the user
+4. If accessories are requested via `--accessories` or interactively, each accessory will be:
+   - Researched (internet image search for reference)
+   - Created in a standalone SVG (with ghost body guide)
+   - Verified independently through its own visual feedback loop
+   - Embedded into the final countryball
+5. Read the SKILL.md for full workflow: `${CLAUDE_PLUGIN_ROOT}/skills/countryball-art/SKILL.md`
+6. Follow the complete workflow defined in the countryball-creator agent
+7. Use the AI visual feedback loop to ensure quality
+8. Present final results to the user

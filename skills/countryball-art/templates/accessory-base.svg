@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"
+     data-accessory-id="ACCESSORY_ID"
+     data-accessory-layer="back|front">
+  <!--
+    Standalone accessory template.
+    The ghost body below is a NON-RENDERING positioning guide.
+    Draw your accessory in the <g id="acc-{id}"> group.
+  -->
+
+  <!-- Ghost body guide (light gray, dashed) — for positioning only, DO NOT include in final output -->
+  <circle cx="256" cy="256" r="200"
+          fill="none" stroke="#CCCCCC" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"/>
+  <!-- Ghost eye guides -->
+  <path d="M 185 215 A 30 38 0 0 1 245 215 Z"
+        fill="none" stroke="#CCCCCC" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+  <path d="M 275 215 A 30 38 0 0 1 335 215 Z"
+        fill="none" stroke="#CCCCCC" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+
+  <!-- ======= DRAW ACCESSORY HERE ======= -->
+  <g id="acc-ACCESSORY_ID">
+    <!-- Your accessory SVG elements go here -->
+  </g>
+</svg>
