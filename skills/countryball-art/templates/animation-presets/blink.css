@@ -1,0 +1,9 @@
+@keyframes blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+.animated-eyes {
+  animation: blink 3s ease-in-out infinite;
+  transform-origin: center;
+}

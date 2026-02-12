@@ -1,0 +1,7 @@
+{
+  "name": "countryball",
+  "displayName": "Countryball Creator",
+  "version": "1.0.0",
+  "description": "Generate Polandball/Countryball SVG art with AI feedback loop, CSS animations, and GIF previews",
+  "claude_plugin_version": 1
+}

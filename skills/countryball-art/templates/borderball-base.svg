@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"
+     data-style="borderball" data-country="poland">
+  <defs>
+    <clipPath id="body-clip">
+      <circle cx="256" cy="256" r="200"/>
+    </clipPath>
+  </defs>
+
+  <!-- Flag layer (clipped to body) -->
+  <g id="layer-flag" clip-path="url(#body-clip)">
+    <!-- White top half (Poland flag is intentionally upside down in Polandball) -->
+    <rect x="56" y="56" width="400" height="200" fill="#FFFFFF"/>
+    <!-- Red bottom half -->
+    <rect x="56" y="256" width="400" height="200" fill="#DC143C"/>
+  </g>
+
+  <!-- Outline layer -->
+  <g id="layer-outline">
+    <circle cx="256" cy="256" r="200" fill="none" stroke="#000000" stroke-width="12"/>
+  </g>
+
+  <!-- Eyes layer - half-ellipse style (taller than wide), flat edge on top, NO PUPILS -->
+  <g id="layer-eyes">
+    <!-- Left eye: half-ellipse (70px wide, ~45px tall, rx=35 ry=45) -->
+    <path d="M 175 198 A 35 45 0 0 1 245 198 Z"
+          fill="#FFFFFF" stroke="#000000" stroke-width="5"/>
+    <!-- Right eye: half-ellipse (70px wide, ~45px tall, rx=35 ry=45) -->
+    <path d="M 283 198 A 35 45 0 0 1 353 198 Z"
+          fill="#FFFFFF" stroke="#000000" stroke-width="5"/>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+@keyframes idle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.animated-body {
+  animation: idle-bounce 2s ease-in-out infinite;
+}

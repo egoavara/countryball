@@ -1,0 +1,11 @@
+{
+  "name": "countryball-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "gifenc": "^1.0.3",
+    "sharp": "^0.34.5"
+  }
+}

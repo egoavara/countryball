@@ -1,0 +1,13 @@
+@keyframes hop {
+  0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
+  10% { transform: translateY(0) scaleY(0.85) scaleX(1.1); }
+  30% { transform: translateY(-50px) scaleY(1.1) scaleX(0.95); }
+  50% { transform: translateY(0) scaleY(0.85) scaleX(1.1); }
+  70% { transform: translateY(-25px) scaleY(1.05) scaleX(0.97); }
+  85% { transform: translateY(0) scaleY(0.9) scaleX(1.05); }
+}
+
+.animated-body {
+  animation: hop 2s ease-in-out infinite;
+  transform-origin: center bottom;
+}
