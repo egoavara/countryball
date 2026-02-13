@@ -1,7 +1,5 @@
 ---
-name: verify
 description: "Verify countryball SVG structure and rendering"
-arguments: "<svg-path>"
 ---
 
 # Verify Countryball SVG

@@ -1,7 +1,20 @@
 {
-  "author": "egoavara",
-  "license": "MIT",
-  "tags": ["art", "svg", "animation", "countryball", "polandball"],
-  "category": "creative",
-  "homepage": "https://github.com/egoavara/countryball"
+  "name": "countryball",
+  "owner": {
+    "name": "egoavara"
+  },
+  "plugins": [
+    {
+      "name": "countryball",
+      "description": "Generate Polandball/Countryball SVG art with AI feedback loop, CSS animations, and GIF previews",
+      "source": ".",
+      "author": {
+        "name": "egoavara"
+      },
+      "license": "MIT",
+      "category": "creative",
+      "tags": ["art", "svg", "animation", "countryball", "polandball"],
+      "homepage": "https://github.com/egoavara/countryball"
+    }
+  ]
 }

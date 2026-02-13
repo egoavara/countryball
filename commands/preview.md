@@ -1,7 +1,5 @@
 ---
-name: preview
 description: "Generate GIF preview from animated countryball SVG"
-arguments: "<animated-svg-path> [--fps=8] [--size=256]"
 ---
 
 # Generate Animation Preview

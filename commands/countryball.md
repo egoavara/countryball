@@ -1,7 +1,5 @@
 ---
-name: countryball
 description: "Create a new countryball character with AI visual feedback loop"
-arguments: "[country] [--style=borderball|classic] [--accessories=id1,id2]"
 ---
 
 # Countryball Creation Workflow

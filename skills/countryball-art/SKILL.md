@@ -1,13 +1,6 @@
 ---
 name: countryball-art
-description: "Countryball/Polandball SVG art generation with AI visual feedback loop, structural verification, CSS animation, and GIF preview. Triggers when users want to create, modify, or animate countryball characters."
-triggers:
-  - "countryball"
-  - "polandball"
-  - "country ball"
-  - "borderball"
-  - "국기공"
-  - "폴란드공"
+description: "Countryball/Polandball SVG art generation with AI visual feedback loop, structural verification, CSS animation, and GIF preview. Use when users mention countryball, polandball, country ball, borderball, 국기공, or 폴란드공, or want to create, modify, or animate countryball characters."
 ---
 
 # Countryball Art Skill

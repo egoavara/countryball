@@ -1,7 +1,5 @@
 ---
-name: render
 description: "Render a countryball SVG to PNG"
-arguments: "<svg-path> [--size=512]"
 ---
 
 # Render SVG to PNG
