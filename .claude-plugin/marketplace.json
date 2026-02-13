@@ -1,5 +1,6 @@
 {
   "name": "countryball",
+  "description": "Polandball/Countryball SVG art creator with AI visual feedback loop, CSS animations, and GIF previews",
   "owner": {
     "name": "egoavara"
   },
@@ -7,7 +8,7 @@
     {
       "name": "countryball",
       "description": "Generate Polandball/Countryball SVG art with AI feedback loop, CSS animations, and GIF previews",
-      "source": ".",
+      "source": "./",
       "author": {
         "name": "egoavara"
       },
